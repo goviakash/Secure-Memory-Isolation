@@ -123,10 +123,9 @@
             <option value="stack">Stack</option>
         </select>
 
-        Action:
-        <select id="action">
-            <option value="read">READ</option>
-            <option value="write">WRITE</option>
+        Mode:
+        <select id="action" disabled>
+            <option value="write" selected>WRITE</option>
         </select>
 
         <button onclick="runSimulation()">Run</button>
@@ -154,7 +153,7 @@
         async function runSimulation() {
             const proc = document.getElementById("process").value;
             const seg = document.getElementById("segment").value;
-            const action = document.getElementById("action").value;
+            const action = "write";
 
             const output = document.getElementById("output");
             const arrow = document.getElementById("arrow");
@@ -163,7 +162,7 @@
                 s.classList.remove("active", "blocked");
             });
 
-            output.innerText = `${proc} performing ${action.toUpperCase()} on ${seg.toUpperCase()}...\n`;
+            output.innerText = `${proc} performing WRITE on ${seg.toUpperCase()}...\n`;
 
             // Animate arrow
             arrow.style.transform = "translateX(100px)";
@@ -172,14 +171,9 @@
 
             let segment = document.getElementById(seg);
 
-            // Logic: only DATA allows write
-            if (action === "write" && seg !== "data") {
-                segment.classList.add("blocked");
-                output.innerText += "\n[ACCESS DENIED] Cannot WRITE to " + seg.toUpperCase();
-            } else {
-                segment.classList.add("active");
-                output.innerText += "\n[ACCESS GRANTED] Operation successful";
-            }
+            // Current backend/C demo always simulates an unauthorized write attempt being blocked.
+            segment.classList.add("blocked");
+            output.innerText += "\n[ACCESS DENIED] Unauthorized WRITE blocked by OS protection";
 
             // Call backend
             fetch("/run")

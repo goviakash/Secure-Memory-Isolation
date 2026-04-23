@@ -6,14 +6,13 @@ const path = require("path");
 const app = express();
 const PORT = 3000;
 
-// Serve static files (index.html, result.txt, etc.)
-app.use(express.static(__dirname));
-
 // 🔐 Run C program and return output
 app.get("/run", (req, res) => {
     console.log("Running C program...");
 
-    exec("run.exe", (error) => {
+    const execCommand = process.platform === "win32" ? "run.exe" : "./run";
+
+    exec(execCommand, (error) => {
         if (error) {
             console.error("Execution error:", error);
             return res.send("Error running program");
@@ -31,6 +30,9 @@ app.get("/run", (req, res) => {
         });
     });
 });
+
+// Serve static files (index.html, result.txt, etc.)
+app.use(express.static(__dirname));
 
 // Start server
 app.listen(PORT, () => {
