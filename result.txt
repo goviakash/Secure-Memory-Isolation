@@ -1,0 +1,11 @@
+=== Secure Memory Isolation System (Windows) ===
+Initial Value: 50
+Memory Address: 00740000
+
+[Process]
+Attempting unauthorized WRITE...
+[SECURITY] OS prevented write operation
+
+Final Value: 50
+[SECURITY] Write blocked successfully
+Execution completed successfully

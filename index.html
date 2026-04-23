@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>OS Memory Simulator</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #020617;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #38bdf8;
+        }
+
+        .controls {
+            margin: 15px;
+        }
+
+        select,
+        button {
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 6px;
+            border: none;
+        }
+
+        button {
+            cursor: pointer;
+            background: #22c55e;
+        }
+
+        .process-area {
+            margin: 20px;
+        }
+
+        .process {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            margin: 10px;
+        }
+
+        .arrow {
+            font-size: 30px;
+            margin: 20px;
+            transition: 0.5s;
+        }
+
+        .memory {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .segment {
+            width: 120px;
+            height: 120px;
+            border: 2px solid #334155;
+            margin: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: 0.3s;
+        }
+
+        .code {
+            background: #1e3a8a;
+        }
+
+        .data {
+            background: #065f46;
+        }
+
+        .stack {
+            background: #7c2d12;
+        }
+
+        .active {
+            box-shadow: 0 0 15px #22c55e;
+        }
+
+        .blocked {
+            box-shadow: 0 0 15px red;
+        }
+
+        .output {
+            margin-top: 20px;
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+            background: #020617;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left;
+            white-space: pre-wrap;
+            color: #22c55e;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🔐 OS Memory Isolation Simulator</h1>
+
+    <div class="controls">
+        Process:
+        <select id="process">
+            <option value="P1">P1</option>
+            <option value="P2">P2</option>
+        </select>
+
+        Segment:
+        <select id="segment">
+            <option value="code">Code</option>
+            <option value="data">Data</option>
+            <option value="stack">Stack</option>
+        </select>
+
+        Action:
+        <select id="action">
+            <option value="read">READ</option>
+            <option value="write">WRITE</option>
+        </select>
+
+        <button onclick="runSimulation()">Run</button>
+    </div>
+
+    <div class="process-area">
+        <div class="process">P1</div>
+        <span class="arrow" id="arrow">➡</span>
+        <div class="process">P2</div>
+    </div>
+
+    <div class="memory">
+        <div id="code" class="segment code">CODE</div>
+        <div id="data" class="segment data">DATA</div>
+        <div id="stack" class="segment stack">STACK</div>
+    </div>
+
+    <div class="output" id="output">Ready...</div>
+
+    <script>
+        function sleep(ms) {
+            return new Promise(r => setTimeout(r, ms));
+        }
+
+        async function runSimulation() {
+            const proc = document.getElementById("process").value;
+            const seg = document.getElementById("segment").value;
+            const action = document.getElementById("action").value;
+
+            const output = document.getElementById("output");
+            const arrow = document.getElementById("arrow");
+
+            document.querySelectorAll(".segment").forEach(s => {
+                s.classList.remove("active", "blocked");
+            });
+
+            output.innerText = `${proc} performing ${action.toUpperCase()} on ${seg.toUpperCase()}...\n`;
+
+            // Animate arrow
+            arrow.style.transform = "translateX(100px)";
+            await sleep(500);
+            arrow.style.transform = "translateX(0px)";
+
+            let segment = document.getElementById(seg);
+
+            // Logic: only DATA allows write
+            if (action === "write" && seg !== "data") {
+                segment.classList.add("blocked");
+                output.innerText += "\n[ACCESS DENIED] Cannot WRITE to " + seg.toUpperCase();
+            } else {
+                segment.classList.add("active");
+                output.innerText += "\n[ACCESS GRANTED] Operation successful";
+            }
+
+            // Call backend
+            fetch("/run")
+                .then(res => res.text())
+                .then(data => {
+                    output.innerText += "\n\n--- Backend Output ---\n" + data;
+                });
+        }
+    </script>
+
+</body>
+
+</html>
