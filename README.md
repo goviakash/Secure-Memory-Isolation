@@ -24,3 +24,18 @@ This project demonstrates memory isolation in operating systems using C, Node.js
 
 3. Open:
    http://localhost:3000
+
+## 📜 License
+
+This project is licensed under the MIT License.
+
+Copyright (c) 2026 Govi Akash
+
+---
+
+## ©️ Copyright
+
+© 2026 Govi Akash. All rights reserved.
+
+This project is developed as part of an academic assignment on Operating Systems.
+Unauthorized copying, modification, or distribution without proper credit is discouraged.
