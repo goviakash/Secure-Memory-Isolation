@@ -23,7 +23,7 @@ This project demonstrates memory isolation in operating systems using C, Node.js
    node server.js
 
 3. Open:
-   http://localhost:3000
+   http://localhost:3000 (Local Host)
 
 ## 📜 License
 
