@@ -19,16 +19,9 @@ This project demonstrates memory isolation in operating systems using C, Node.js
 - Node.js + Express  
 - GCC (MinGW)  
 
-# 🚀 How to Use (After Downloading from GitHub)
-
-Follow these steps carefully:
-
-## 📥 Step 1: Download the Project
-
-### Option 1: Clone using Git
-```bash
-git clone https://github.com/YOUR_USERNAME/Secure-Memory-Isolation.git
-cd Secure-Memory-Isolation
+### 🧰 Other Tools
+- VS Code (IDE)  
+- GitHub (Version Control)  
 
 ## ▶️ Run Project
 
@@ -42,17 +35,16 @@ cd Secure-Memory-Isolation
    http://localhost:3000 (Local Host)
 
 
-### Option 1: Clone using Git
-```bash
-git clone https://github.com/YOUR_USERNAME/Secure-Memory-Isolation.git
-cd Secure-Memory-Isolation
 
-# Copyright and License
+## 📜 License
 
 This project is licensed under the MIT License.
 
 Copyright (c) 2026 Govi Akash
 
+---
+
+## ©️ Copyright
 
 © 2026 Govi Akash. All rights reserved.
 
